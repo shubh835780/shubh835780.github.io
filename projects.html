@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects — Shubham Singh</title>
+  <meta name="description" content="All projects by Shubham Singh — OptiSQL Tuner and the ETL Validation Framework." />
+  <link rel="icon" type="image/png" href="assets/icon.png" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+      background: #0e101a; color: #e5e7eb; line-height: 1.7; min-height: 100vh;
+    }
+    a { color: #22d3ee; text-decoration: none; transition: color .2s; }
+    a:hover { color: #7c5cff; }
+    img { max-width: 100%; height: auto; display: block; border-radius: 12px; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+    h1 { font-size: 2.6rem; font-weight: 800; }
+    h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: .5rem; }
+    .gradient-text {
+      background: linear-gradient(135deg, #22d3ee 0%, #7c5cff 60%, #a855f7 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .subtitle { font-size: 1.1rem; color: #94a3b8; max-width: 640px; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(14,16,26,.85); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(34,211,238,.12);
+    }
+    nav .container { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    nav .logo { font-weight: 700; font-size: 1.15rem; }
+    nav .logo span { color: #22d3ee; }
+    nav ul { display: flex; gap: 28px; list-style: none; }
+    nav a { color: #94a3b8; font-size: .9rem; font-weight: 500; }
+    nav a:hover { color: #22d3ee; }
+    nav a.active { color: #22d3ee; }
+
+    .page-header { padding: 120px 0 40px; position: relative; }
+    .page-header::before {
+      content: ''; position: absolute; width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(124,92,255,.1), transparent 70%);
+      top: -80px; right: -80px; pointer-events: none;
+    }
+
+    .project-grid { display: grid; grid-template-columns: 1fr; gap: 32px; margin-top: 2rem; }
+    .card {
+      background: rgba(255,255,255,.03); border: 1px solid rgba(34,211,238,.08);
+      border-radius: 14px; padding: 32px; transition: all .3s; display: grid;
+      grid-template-columns: 1fr 1fr; gap: 28px; align-items: center;
+    }
+    @media (max-width: 768px) { .card { grid-template-columns: 1fr; } }
+    .card:hover { border-color: rgba(34,211,238,.25); transform: translateY(-4px); }
+    .card-img { border-radius: 10px; overflow: hidden; border: 1px solid rgba(34,211,238,.12); }
+    .card-img img { width: 100%; }
+    .card-body .icon { font-size: 2rem; margin-bottom: .5rem; }
+    .card-body p { color: #94a3b8; font-size: .95rem; margin: .8rem 0 1rem; }
+    .card-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1rem; }
+    .tag { font-size: .75rem; padding: 3px 10px; border-radius: 20px; background: rgba(124,92,255,.15); color: #a78bfa; }
+    .tag.green { background: rgba(34,211,238,.12); color: #22d3ee; }
+    .card-links { display: flex; gap: 14px; flex-wrap: wrap; }
+    .card-links a { font-size: .85rem; font-weight: 600; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 22px; border-radius: 8px; font-weight: 600; font-size: .9rem;
+      border: none; cursor: pointer; transition: all .2s;
+    }
+    .btn-primary { background: #22d3ee; color: #0e101a; }
+    .btn-primary:hover { background: #7c5cff; color: #fff; transform: translateY(-2px); }
+    .btn-outline { background: transparent; border: 1.5px solid #22d3ee; color: #22d3ee; }
+    .btn-outline:hover { background: rgba(34,211,238,.1); transform: translateY(-2px); }
+    .btn-group { display: flex; gap: 14px; flex-wrap: wrap; margin: 2rem 0; }
+
+    footer { border-top: 1px solid rgba(34,211,238,.08); padding: 32px 0; text-align: center; }
+    footer p { font-size: .85rem; color: #64748b; }
+    footer .social { display: flex; justify-content: center; gap: 18px; margin-bottom: 12px; }
+    footer .social a { font-size: 1.2rem; }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="container">
+      <div class="logo"><span>⚡</span> shubham</div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="projects.html" class="active">Projects</a></li>
+        <li><a href="resume.html">Resume</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ═══ Header ═══ -->
+  <div class="page-header">
+    <div class="container">
+      <h1 class="gradient-text">Projects</h1>
+      <p class="subtitle">Everything I've built and published — from AI agents on the marketplace to ETL frameworks with 31 passing tests.</p>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <div class="project-grid">
+
+      <!-- ⚡ OptiSQL Tuner -->
+      <div class="card">
+        <div class="card-img">
+          <img src="assets/vscode-marketplace.png" alt="OptiSQL Tuner in the VS Code marketplace" />
+        </div>
+        <div class="card-body">
+          <div class="icon">⚡</div>
+          <h2>OptiSQL Tuner</h2>
+          <div class="card-tags">
+            <span class="tag">Python</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag green">VS Code</span>
+            <span class="tag">LLM Agent</span>
+            <span class="tag green">Copilot</span>
+            <span class="tag">Ed25519</span>
+          </div>
+          <p>An AI agent that finds slow SQL queries, fixes them on a safe copy of the database, and proves the speed-up with real before/after benchmarks — all inside VS Code. Published on the VS Code Marketplace and Open VSX.</p>
+          <div class="card-links">
+            <a href="optisql.html">Learn more →</a>
+            <a href="https://github.com/shubh835780/OptiSQL" target="_blank">Source →</a>
+            <a href="https://marketplace.visualstudio.com/items?itemName=shubh835780.optisql-tuner" target="_blank">Marketplace →</a>
+            <a href="https://open-vsx.org/extension/shubh835780/optisql-tuner" target="_blank">Open VSX →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 🏪 ETL Validation Framework -->
+      <div class="card">
+        <div class="card-img">
+          <img src="assets/pipeline.png" alt="ETL validation framework pipeline" />
+        </div>
+        <div class="card-body">
+          <div class="icon">🏪</div>
+          <h2>ETL Validation Framework</h2>
+          <div class="card-tags">
+            <span class="tag">Python</span>
+            <span class="tag">SQLite</span>
+            <span class="tag green">pytest</span>
+            <span class="tag">SCD 1/2/3</span>
+            <span class="tag green">CI/CD</span>
+            <span class="tag">SQLAlchemy</span>
+          </div>
+          <p>An end-to-end ETL validation framework from a RetailMart warehouse case study — generates dirty data on purpose, emulates IICS mappings, validates with 7 checks, and catches all 8 defects. 31 tests, 2.64× faster loads, 14 practice tasks.</p>
+          <div class="card-links">
+            <a href="etl-validation.html">Learn more →</a>
+            <a href="https://github.com/shubh835780/etl-validation-framework" target="_blank">Source →</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="btn-group">
+      <a class="btn btn-outline" href="index.html">← Back to Home</a>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="social">
+        <a href="https://github.com/shubh835780" target="_blank" title="GitHub">🐙</a>
+        <a href="https://www.linkedin.com/in/shubham-singh-246a97257/" target="_blank" title="LinkedIn">🔗</a>
+        <a href="https://marketplace.visualstudio.com/items?itemName=shubh835780.optisql-tuner" target="_blank" title="VS Code Marketplace">🧩</a>
+      </div>
+      <p>© 2026 Shubham Singh. Built from scratch. Hosted on GitHub Pages.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

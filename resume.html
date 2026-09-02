@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resume — Shubham Singh</title>
+  <meta name="description" content="Resume of Shubham Singh — ETL/data testing engineer building AI agents and developer tools." />
+  <link rel="icon" type="image/png" href="assets/icon.png" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+      background: #0e101a; color: #e5e7eb; line-height: 1.7; min-height: 100vh;
+    }
+    a { color: #22d3ee; text-decoration: none; transition: color .2s; }
+    a:hover { color: #7c5cff; }
+    img { max-width: 100%; height: auto; display: block; }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+    h1 { font-size: 2.4rem; font-weight: 800; }
+    h2 { font-size: 1.4rem; font-weight: 700; margin: 2.5rem 0 1rem; padding-bottom: .4rem; border-bottom: 1px solid rgba(34,211,238,.15); }
+    h3 { font-size: 1.05rem; font-weight: 600; }
+    .gradient-text {
+      background: linear-gradient(135deg, #22d3ee 0%, #7c5cff 60%, #a855f7 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(14,16,26,.85); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(34,211,238,.12);
+    }
+    nav .container { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    nav .logo { font-weight: 700; font-size: 1.15rem; }
+    nav .logo span { color: #22d3ee; }
+    nav ul { display: flex; gap: 28px; list-style: none; }
+    nav a { color: #94a3b8; font-size: .9rem; font-weight: 500; }
+    nav a:hover { color: #22d3ee; }
+    nav a.active { color: #22d3ee; }
+
+    .page-header { padding: 110px 0 30px; position: relative; }
+    .page-header::before {
+      content: ''; position: absolute; width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(124,92,255,.1), transparent 70%);
+      top: -80px; right: -80px; pointer-events: none;
+    }
+
+    .contact-row { display: flex; gap: 20px; flex-wrap: wrap; margin: 1rem 0 0; font-size: .9rem; color: #94a3b8; }
+
+    .timeline { margin: 1.5rem 0; }
+    .timeline-item { display: flex; gap: 20px; margin-bottom: 2rem; }
+    .timeline-item .dot { width: 12px; height: 12px; border-radius: 50%; background: #22d3ee; margin-top: 6px; flex-shrink: 0; box-shadow: 0 0 12px rgba(34,211,238,.6); }
+    .timeline-item .body { flex: 1; }
+    .timeline-item .date { font-size: .8rem; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
+    .timeline-item .title { font-size: 1.05rem; font-weight: 700; }
+    .timeline-item .place { color: #a78bfa; font-size: .9rem; }
+    .timeline-item p { color: #94a3b8; font-size: .9rem; margin-top: .3rem; }
+    .timeline-item ul { margin-top: .4rem; padding-left: 1.2rem; color: #94a3b8; font-size: .9rem; }
+    .timeline-item li { margin: .15rem 0; }
+
+    .skill-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 1rem 0; }
+    @media (max-width: 768px) { .skill-grid { grid-template-columns: 1fr; } }
+    .skill-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-radius: 10px; background: rgba(255,255,255,.02); border: 1px solid rgba(34,211,238,.06); }
+    .skill-name { font-size: .9rem; }
+    .skill-bar { height: 6px; border-radius: 3px; background: rgba(255,255,255,.06); width: 45%; overflow: hidden; }
+    .skill-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #22d3ee, #7c5cff); }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 22px; border-radius: 8px; font-weight: 600; font-size: .9rem;
+      border: none; cursor: pointer; transition: all .2s;
+    }
+    .btn-primary { background: #22d3ee; color: #0e101a; }
+    .btn-primary:hover { background: #7c5cff; color: #fff; transform: translateY(-2px); }
+    .btn-outline { background: transparent; border: 1.5px solid #22d3ee; color: #22d3ee; }
+    .btn-outline:hover { background: rgba(34,211,238,.1); transform: translateY(-2px); }
+    .btn-group { display: flex; gap: 14px; flex-wrap: wrap; margin: 1.5rem 0; }
+
+    footer { border-top: 1px solid rgba(34,211,238,.08); padding: 32px 0; text-align: center; }
+    footer p { font-size: .85rem; color: #64748b; }
+    footer .social { display: flex; justify-content: center; gap: 18px; margin-bottom: 12px; }
+    footer .social a { font-size: 1.2rem; }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 1.7rem; }
+      nav ul { gap: 14px; }
+      .timeline-item { flex-direction: column; gap: 6px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="container">
+      <div class="logo"><span>⚡</span> shubham</div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="resume.html" class="active">Resume</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ═══ Header ═══ -->
+  <div class="page-header">
+    <div class="container">
+      <h1 class="gradient-text">Shubham Singh</h1>
+      <p style="color:#a78bfa; font-weight:600;">ETL / Data Testing · AI Agent Developer · Marketplace Publisher</p>
+      <div class="contact-row">
+        <span>🐙 <a href="https://github.com/shubh835780" target="_blank">github.com/shubh835780</a></span>
+        <span>🔗 <a href="https://www.linkedin.com/in/shubham-singh-246a97257/" target="_blank">LinkedIn</a></span>
+        <span>🧩 <a href="https://marketplace.visualstudio.com/items?itemName=shubh835780.optisql-tuner" target="_blank">VS Code Marketplace</a></span>
+        <span>📦 <a href="https://open-vsx.org/extension/shubh835780/optisql-tuner" target="_blank">Open VSX</a></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- ═══ Summary ═══ -->
+    <h2>Summary</h2>
+    <p style="color:#94a3b8; max-width: 720px;">
+      I'm an ETL/data-testing engineer and AI tinkerer who learns by building. I've shipped an
+      end-to-end ETL validation framework (SCD 1/2/3, incremental loads, 7 check types, 31 tests)
+      and an AI agent that tunes SQL queries — published to the VS Code Marketplace and Open VSX
+      with Ed25519-signed builds. Every project ships with tests, docs, CI, and a demo.
+    </p>
+
+    <!-- ═══ Experience ═══ -->
+    <h2>Projects &amp; Experience</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="dot"></div>
+        <div class="body">
+          <div class="date">2026 — Present</div>
+          <div class="title">OptiSQL Tuner — AI SQL Tuning Agent</div>
+          <div class="place">VS Code extension · published on 2 marketplaces</div>
+          <p>An AI agent that finds slow SQL queries, fixes them on a safe copy, and proves the speed-up with before/after benchmarks.</p>
+          <ul>
+            <li>Tool-calling agent loop built from first principles (direct API + LangChain)</li>
+            <li>VS Code extension with webview panel + GitHub Copilot integration (/optisql command + LM tool)</li>
+            <li>Safe-by-design database layer: read-only analysis, copy-only writes, bounded loops</li>
+            <li>Ed25519 integrity-signed builds — tampering detected before load</li>
+            <li>Live on VS Code Marketplace and Open VSX</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="dot"></div>
+        <div class="body">
+          <div class="date">2026 — Present</div>
+          <div class="title">ETL Validation Framework — RetailMart Case Study</div>
+          <div class="place">Python · SQLite · pytest · GitHub Actions</div>
+          <p>An end-to-end ETL validation framework emulating Informatica IICS mappings in Python — including 100K intentionally dirty transactions.</p>
+          <ul>
+            <li>SCD Type 1/2/3, full-refresh promotion load, incremental fact load with watermark</li>
+            <li>7 validation checks: row counts, column sums, MD5 hash, duplicates, RI, NULL/negative, schema</li>
+            <li>Catches all 8 injected defects · 31 passing tests · 2.64× load speedup</li>
+            <li>14 practice tasks, each with spec + runnable verification script</li>
+            <li>GitHub Actions CI on every push</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ Skills ═══ -->
+    <h2>Skills</h2>
+    <div class="skill-grid">
+      <div class="skill-row"><span class="skill-name">SQL</span><div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div></div>
+      <div class="skill-row"><span class="skill-name">Python (pandas, numpy, pytest)</span><div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div></div>
+      <div class="skill-row"><span class="skill-name">Data Validation &amp; Reconciliation</span><div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div></div>
+      <div class="skill-row"><span class="skill-name">SCD &amp; Incremental ETL</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
+      <div class="skill-row"><span class="skill-name">Git &amp; GitHub Actions (CI/CD)</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
+      <div class="skill-row"><span class="skill-name">TypeScript / VS Code Extensions</span><div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div></div>
+      <div class="skill-row"><span class="skill-name">LLM Agents (Anthropic Claude, tool calling)</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
+      <div class="skill-row"><span class="skill-name">Informatica IICS (emulated)</span><div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div></div>
+    </div>
+
+    <!-- ═══ Publications ═══ -->
+    <h2>Publications</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="dot"></div>
+        <div class="body">
+          <div class="title">OptiSQL Tuner — VS Code extension</div>
+          <p>AI agent for SQL performance tuning. <a href="https://marketplace.visualstudio.com/items?itemName=shubh835780.optisql-tuner" target="_blank">VS Code Marketplace</a> · <a href="https://open-vsx.org/extension/shubh835780/optisql-tuner" target="_blank">Open VSX</a></p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="dot"></div>
+        <div class="body">
+          <div class="title">ETL Testing Case Study — Retail DWH</div>
+          <p>Full documentation of the framework, practice tasks, and a beginner-friendly guide.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <a class="btn btn-outline" href="index.html">← Back to Home</a>
+      <a class="btn btn-primary" href="https://github.com/shubh835780" target="_blank">View GitHub →</a>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="social">
+        <a href="https://github.com/shubh835780" target="_blank" title="GitHub">🐙</a>
+        <a href="https://www.linkedin.com/in/shubham-singh-246a97257/" target="_blank" title="LinkedIn">🔗</a>
+        <a href="https://marketplace.visualstudio.com/items?itemName=shubh835780.optisql-tuner" target="_blank" title="VS Code Marketplace">🧩</a>
+      </div>
+      <p>© 2026 Shubham Singh. Built from scratch. Hosted on GitHub Pages.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
