@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🏪 ETL Validation Framework — Shubham Singh</title>
+  <meta name="description" content="ETL Validation Framework: a working, end-to-end ETL validation suite from a RetailMart data warehouse case study." />
+  <link rel="icon" type="image/png" href="assets/icon.png" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+      background: #0e101a; color: #e5e7eb; line-height: 1.7; min-height: 100vh;
+    }
+    a { color: #22d3ee; text-decoration: none; transition: color .2s; }
+    a:hover { color: #7c5cff; }
+    img { max-width: 100%; height: auto; display: block; border-radius: 12px; }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+    h1 { font-size: 2.6rem; font-weight: 800; }
+    h2 { font-size: 1.8rem; font-weight: 700; margin: 3rem 0 1rem; }
+    h3 { font-size: 1.2rem; font-weight: 600; margin: 1.5rem 0 .5rem; }
+    .gradient-text {
+      background: linear-gradient(135deg, #22d3ee 0%, #7c5cff 60%, #a855f7 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .subtitle { font-size: 1.15rem; color: #94a3b8; max-width: 640px; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(14,16,26,.85); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(34,211,238,.12);
+    }
+    nav .container { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    nav .logo { font-weight: 700; font-size: 1.15rem; }
+    nav .logo span { color: #22d3ee; }
+    nav ul { display: flex; gap: 28px; list-style: none; }
+    nav a { color: #94a3b8; font-size: .9rem; font-weight: 500; }
+    nav a:hover { color: #22d3ee; }
+
+    .page-header { padding: 120px 0 40px; position: relative; }
+    .page-header::before {
+      content: ''; position: absolute; width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(34,211,238,.1), transparent 70%);
+      top: -80px; right: -80px; pointer-events: none;
+    }
+    .page-header .container { display: flex; align-items: center; gap: 40px; }
+    .page-header-icon { width: 80px; height: 80px; border-radius: 16px; flex-shrink: 0; background: linear-gradient(135deg, #22d3ee22, #7c5cff22); display: flex; align-items: center; justify-content: center; font-size: 2.8rem; border: 1px solid rgba(34,211,238,.2); }
+
+    section { padding: 40px 0; }
+    .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin: 2rem 0; }
+    .meta-item { text-align: center; padding: 20px; border-radius: 12px; background: rgba(255,255,255,.02); border: 1px solid rgba(34,211,238,.06); }
+    .meta-item .label { font-size: .75rem; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
+    .meta-item .value { font-size: 1.1rem; font-weight: 700; margin-top: 4px; }
+
+    .img-full { margin: 2rem 0; }
+    .img-full img { border: 1px solid rgba(34,211,238,.1); }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 22px; border-radius: 8px; font-weight: 600; font-size: .9rem;
+      border: none; cursor: pointer; transition: all .2s;
+    }
+    .btn-primary { background: #22d3ee; color: #0e101a; }
+    .btn-primary:hover { background: #7c5cff; color: #fff; transform: translateY(-2px); }
+    .btn-outline { background: transparent; border: 1.5px solid #22d3ee; color: #22d3ee; }
+    .btn-outline:hover { background: rgba(34,211,238,.1); transform: translateY(-2px); }
+    .btn-group { display: flex; gap: 14px; flex-wrap: wrap; margin: 2rem 0; }
+
+    .tech-list { display: flex; gap: 10px; flex-wrap: wrap; margin: 1rem 0; }
+    .tech-tag { padding: 4px 14px; border-radius: 20px; font-size: .8rem; background: rgba(124,92,255,.15); color: #a78bfa; }
+    .tech-tag.green { background: rgba(34,211,238,.12); color: #22d3ee; }
+
+    .report-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+    .report-table th, .report-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid rgba(34,211,238,.08); }
+    .report-table th { color: #64748b; font-size: .8rem; text-transform: uppercase; letter-spacing: 1px; }
+    .report-table td { color: #e5e7eb; }
+    .pass { color: #22d3ee; font-weight: 700; }
+    .warn { color: #fbbf24; font-weight: 700; }
+    .fail { color: #f87171; font-weight: 700; }
+
+    .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 2rem 0; }
+    @media (max-width: 768px) { .feature-grid { grid-template-columns: 1fr; } }
+    .feature-card { padding: 24px; border-radius: 14px; background: rgba(255,255,255,.02); border: 1px solid rgba(34,211,238,.08); }
+    .feature-card h3 { margin: 0 0 .5rem; }
+    .feature-card p { color: #94a3b8; font-size: .95rem; }
+
+    .code-block { background: #1a1b2e; border-radius: 10px; padding: 20px; margin: 1rem 0; overflow-x: auto; font-family: 'Consolas', 'Courier New', monospace; font-size: .85rem; color: #e5e7eb; border: 1px solid rgba(34,211,238,.06); }
+    .code-block .comment { color: #6a9955; }
+    .code-block .keyword { color: #569cd6; }
+    .code-block .string { color: #ce9178; }
+    .code-block .func { color: #dcdcaa; }
+
+    hr { border: none; border-top: 1px solid rgba(34,211,238,.08); margin: 3rem 0; }
+
+    footer { border-top: 1px solid rgba(34,211,238,.08); padding: 32px 0; text-align: center; }
+    footer p { font-size: .85rem; color: #64748b; }
+    footer .social { display: flex; justify-content: center; gap: 18px; margin-bottom: 12px; }
+    footer .social a { font-size: 1.2rem; }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 1.8rem; }
+      .page-header .container { flex-direction: column; text-align: center; }
+      .feature-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="container">
+      <div class="logo"><span>⚡</span> shubham</div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#projects">Projects</a></li>
+        <li><a href="index.html#about">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ═══ Header ═══ -->
+  <div class="page-header">
+    <div class="container">
+      <div class="page-header-icon">🏪</div>
+      <div>
+        <h1 class="gradient-text">ETL Validation Framework</h1>
+        <p class="subtitle">A working, end-to-end ETL validation suite built from a RetailMart data warehouse case study — SCD Type 1/2/3, incremental fact loads, 7 check types, and HTML reports.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- ═══ Meta ═══ -->
+    <div class="meta-grid">
+      <div class="meta-item"><div class="label">Defects caught</div><div class="value">8 / 8</div></div>
+      <div class="meta-item"><div class="label">Tests passing</div><div class="value">31</div></div>
+      <div class="meta-item"><div class="label">Load speedup</div><div class="value">2.64×</div></div>
+      <div class="meta-item"><div class="label">Practice tasks</div><div class="value">14</div></div>
+    </div>
+
+    <div class="btn-group">
+      <a class="btn btn-primary" href="https://github.com/shubh835780/etl-validation-framework" target="_blank">View Source →</a>
+      <a class="btn btn-outline" href="https://github.com/shubh835780/etl-validation-framework/blob/main/README.md" target="_blank">README</a>
+      <a class="btn btn-outline" href="index.html">← Back to Home</a>
+    </div>
+
+    <blockquote style="border-left: 3px solid #22d3ee; padding: 12px 20px; margin: 2rem 0; color: #94a3b8; background: rgba(34,211,238,.04); border-radius: 0 10px 10px 0;">
+      This is a testing framework — so a "FAIL" report means it's working. An ETL Tester's job isn't to make the data clean; it's to find what's broken and prove it.
+    </blockquote>
+
+    <!-- ═══ Pipeline ═══ -->
+    <h2>The pipeline</h2>
+    <div class="img-full">
+      <img src="assets/pipeline.png" alt="ETL pipeline diagram" />
+    </div>
+    <p>The framework generates <strong>dirty data on purpose</strong> — 100K transactions with deliberate defects baked in (a duplicate transaction, NULL customer IDs, negative quantities) — emulates real Informatica IICS mappings in Python, then validates source vs target with 7 checks.</p>
+
+    <div class="code-block">
+      <span class="comment"># 1. Generate the source data (10K customers, 500 products, 100K orders)</span><br />
+      <span class="keyword">python</span> generate_data.py<br /><br />
+      <span class="comment"># 2. Run the "IICS" mappings — builds the warehouse</span><br />
+      <span class="keyword">python</span> simulate_etl.py<br /><br />
+      <span class="comment"># 3. Run the validation framework</span><br />
+      <span class="keyword">python</span> run.py --date 2026-08-27           <span class="comment"># summary</span><br />
+      <span class="keyword">python</span> run.py --date 2026-08-27 --verbose  <span class="comment"># per-check logs</span><br />
+      <span class="keyword">python</span> run.py --date 2026-08-27 --sample 10000  <span class="comment"># sampled row compare</span>
+    </div>
+
+    <!-- ═══ SCD ═══ -->
+    <h2>Slowly Changing Dimensions</h2>
+    <div class="img-full">
+      <img src="assets/scd_types.png" alt="SCD Type 1, 2, 3 diagram" />
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>SCD Type 1 — overwrite</h3>
+        <p>Product updates overwrite in place. No history kept — current state only.</p>
+      </div>
+      <div class="feature-card">
+        <h3>SCD Type 2 — versioned</h3>
+        <p>Editing a customer expires the old version and inserts a new current one, with effective dates.</p>
+      </div>
+      <div class="feature-card">
+        <h3>SCD Type 3 — previous</h3>
+        <p>Keeps the previous value in a separate column alongside the current one.</p>
+      </div>
+    </div>
+
+    <!-- ═══ Star schema ═══ -->
+    <h2>Star schema warehouse</h2>
+    <div class="img-full">
+      <img src="assets/star_schema.png" alt="Star schema diagram" />
+    </div>
+    <p>Source data lands in a <code>retail_dwh.db</code> star schema: <code>dim_customer</code>, <code>dim_product</code>, <code>dim_store</code>, <code>dim_date</code>, and <code>fact_sales</code> — plus audit, watermark, and error-detail tables.</p>
+
+    <!-- ═══ What the report catches ═══ -->
+    <h2>What the report catches</h2>
+    <p>The data is intentionally dirty, so the report shows real, workable findings:</p>
+    <table class="report-table">
+      <thead>
+        <tr><th>Check</th><th>Result</th><th>Why</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>dim_customer row/row-by-row/dupes</td><td class="pass">✅ PASS</td><td>SCD Type 2 loaded correctly</td></tr>
+        <tr><td>dim_product row/row-by-row/dupes</td><td class="pass">✅ PASS</td><td>SCD Type 1 loaded correctly</td></tr>
+        <tr><td>dim_product schema</td><td class="warn">⚠️ 2 extra + 1 type</td><td>target has <code>product_key</code>/<code>is_active</code>, REAL vs FLOAT</td></tr>
+        <tr><td>fact_sales row count</td><td class="fail">❌ +2 in source</td><td>the deliberate duplicate transaction inflates the source join</td></tr>
+        <tr><td>fact_sales column sums</td><td class="fail">❌</td><td>duplicate rows contribute extra sums</td></tr>
+        <tr><td>fact_sales NULL customer_key</td><td class="fail">❌ 5,898</td><td>~2% of source customers are missing → NULL key</td></tr>
+        <tr><td>fact_sales negative quantity</td><td class="fail">❌ 3,087</td><td>~1% deliberate bad rows</td></tr>
+      </tbody>
+    </table>
+    <p>That is the point: a real validation framework finds the real problems. In a real project you'd then go fix the ETL or the source data and re-run.</p>
+
+    <!-- ═══ Incremental load ═══ -->
+    <h2>Incremental loads &amp; watermark</h2>
+    <p>The fact load is incremental: it reads only rows newer than the watermark. The tests verify that a second run loads nothing new — the watermark does not double-load.</p>
+
+    <h2>CI/CD on every push</h2>
+    <div class="img-full">
+      <img src="assets/cicd.png" alt="CI/CD pipeline" />
+    </div>
+    <p>A GitHub Actions workflow builds, validates, and runs the full test suite on every push.</p>
+
+    <h2>Performance: 2.64× faster loads</h2>
+    <div class="img-full">
+      <img src="assets/performance.png" alt="Load performance comparison" />
+    </div>
+    <p>Naive row-by-row inserts vs batched inserts vs pushdown to SQL — the benchmark measures all three on a 1M-row load.</p>
+
+    <!-- ═══ Validators ═══ -->
+    <h2>The 7 validation checks</h2>
+    <div class="feature-grid">
+      <div class="feature-card"><h3>1. Row counts</h3><p>Source vs target — every table, every run.</p></div>
+      <div class="feature-card"><h3>2. Column sums</h3><p>Financial &amp; metric columns reconcile.</p></div>
+      <div class="feature-card"><h3>3. MD5 row-by-row hash</h3><p>Proves each row matches, byte for byte.</p></div>
+      <div class="feature-card"><h3>4. Duplicates</h3><p>Finds keys that should be unique but aren't.</p></div>
+      <div class="feature-card"><h3>5. Referential integrity</h3><p>Foreign keys point at real parents.</p></div>
+      <div class="feature-card"><h3>6. NULL / negatives</h3><p>Catches missing and impossible values.</p></div>
+      <div class="feature-card"><h3>7. Schema comparison</h3><p>Column drift between source and target.</p></div>
+    </div>
+
+    <h2>14 practice tasks</h2>
+    <p>Every task ships with a markdown spec and a runnable verification script — star schema design, SQL validation queries, SCD Type 2/3 mapping, error handling, incremental watermark, performance benchmarking, full reconciliation, schema comparison, CI/CD docs, and an end-to-end runner.</p>
+
+    <hr />
+
+    <h2>Tech stack</h2>
+    <div class="tech-list">
+      <span class="tech-tag green">Python</span>
+      <span class="tech-tag">SQLite</span>
+      <span class="tech-tag green">pandas</span>
+      <span class="tech-tag">pytest</span>
+      <span class="tech-tag green">Faker</span>
+      <span class="tech-tag">SQLAlchemy</span>
+      <span class="tech-tag">GitHub Actions</span>
+    </div>
+
+    <div class="btn-group">
+      <a class="btn btn-primary" href="https://github.com/shubh835780/etl-validation-framework" target="_blank">View Source →</a>
+      <a class="btn btn-outline" href="index.html">← Back to Home</a>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="social">
+        <a href="https://github.com/shubh835780" target="_blank" title="GitHub">🐙</a>
+        <a href="https://www.linkedin.com/in/shubham-singh-246a97257/" target="_blank" title="LinkedIn">🔗</a>
+        <a href="https://marketplace.visualstudio.com/items?itemName=shubh835780.optisql-tuner" target="_blank" title="VS Code Marketplace">🧩</a>
+      </div>
+      <p>© 2026 Shubham Singh. Built from scratch. Hosted on GitHub Pages.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

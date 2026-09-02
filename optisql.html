@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>⚡ OptiSQL Tuner — Shubham Singh</title>
+  <meta name="description" content="OptiSQL Tuner: an AI agent that finds slow SQL queries, fixes them, and proves the speed-up inside VS Code." />
+  <link rel="icon" type="image/png" href="assets/icon.png" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+      background: #0e101a; color: #e5e7eb; line-height: 1.7; min-height: 100vh;
+    }
+    a { color: #22d3ee; text-decoration: none; transition: color .2s; }
+    a:hover { color: #7c5cff; }
+    img { max-width: 100%; height: auto; display: block; border-radius: 12px; }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+    h1 { font-size: 2.6rem; font-weight: 800; }
+    h2 { font-size: 1.8rem; font-weight: 700; margin: 3rem 0 1rem; }
+    h3 { font-size: 1.2rem; font-weight: 600; margin: 1.5rem 0 .5rem; }
+    .gradient-text {
+      background: linear-gradient(135deg, #22d3ee 0%, #7c5cff 60%, #a855f7 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .subtitle { font-size: 1.15rem; color: #94a3b8; max-width: 640px; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(14,16,26,.85); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(34,211,238,.12);
+    }
+    nav .container { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    nav .logo { font-weight: 700; font-size: 1.15rem; }
+    nav .logo span { color: #22d3ee; }
+    nav ul { display: flex; gap: 28px; list-style: none; }
+    nav a { color: #94a3b8; font-size: .9rem; font-weight: 500; }
+    nav a:hover { color: #22d3ee; }
+
+    .page-header { padding: 120px 0 40px; position: relative; }
+    .page-header::before {
+      content: ''; position: absolute; width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(124,92,255,.12), transparent 70%);
+      top: -80px; right: -80px; pointer-events: none;
+    }
+    .page-header .container { display: flex; align-items: center; gap: 40px; }
+    .page-header-icon { width: 80px; height: 80px; border-radius: 16px; flex-shrink: 0; background: linear-gradient(135deg, #22d3ee33, #7c5cff33); display: flex; align-items: center; justify-content: center; font-size: 2.8rem; border: 1px solid rgba(34,211,238,.2); }
+
+    section { padding: 40px 0; }
+    .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin: 2rem 0; }
+    .meta-item { text-align: center; padding: 20px; border-radius: 12px; background: rgba(255,255,255,.02); border: 1px solid rgba(34,211,238,.06); }
+    .meta-item .label { font-size: .75rem; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
+    .meta-item .value { font-size: 1.1rem; font-weight: 700; margin-top: 4px; }
+
+    .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 2rem 0; }
+    @media (max-width: 768px) { .feature-grid { grid-template-columns: 1fr; } }
+    .feature-card { padding: 24px; border-radius: 14px; background: rgba(255,255,255,.02); border: 1px solid rgba(34,211,238,.08); }
+    .feature-card h3 { margin: 0 0 .5rem; }
+    .feature-card p { color: #94a3b8; font-size: .95rem; }
+
+    .img-full { margin: 2rem 0; }
+    .img-full img { border: 1px solid rgba(34,211,238,.1); }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 22px; border-radius: 8px; font-weight: 600; font-size: .9rem;
+      border: none; cursor: pointer; transition: all .2s;
+    }
+    .btn-primary { background: #22d3ee; color: #0e101a; }
+    .btn-primary:hover { background: #7c5cff; color: #fff; transform: translateY(-2px); }
+    .btn-outline { background: transparent; border: 1.5px solid #22d3ee; color: #22d3ee; }
+    .btn-outline:hover { background: rgba(34,211,238,.1); transform: translateY(-2px); }
+    .btn-group { display: flex; gap: 14px; flex-wrap: wrap; margin: 2rem 0; }
+
+    .tech-list { display: flex; gap: 10px; flex-wrap: wrap; margin: 1rem 0; }
+    .tech-tag { padding: 4px 14px; border-radius: 20px; font-size: .8rem; background: rgba(124,92,255,.15); color: #a78bfa; }
+    .tech-tag.green { background: rgba(34,211,238,.12); color: #22d3ee; }
+
+    .bench-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+    .bench-table th, .bench-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid rgba(34,211,238,.08); }
+    .bench-table th { color: #64748b; font-size: .8rem; text-transform: uppercase; letter-spacing: 1px; }
+    .bench-table td { color: #e5e7eb; }
+    .bench-table .speedup { color: #22d3ee; font-weight: 700; }
+
+    .code-block { background: #1a1b2e; border-radius: 10px; padding: 20px; margin: 1rem 0; overflow-x: auto; font-family: 'Consolas', 'Courier New', monospace; font-size: .85rem; color: #e5e7eb; border: 1px solid rgba(34,211,238,.06); }
+    .code-block .comment { color: #6a9955; }
+    .code-block .keyword { color: #569cd6; }
+    .code-block .string { color: #ce9178; }
+    .code-block .func { color: #dcdcaa; }
+
+    hr { border: none; border-top: 1px solid rgba(34,211,238,.08); margin: 3rem 0; }
+
+    footer { border-top: 1px solid rgba(34,211,238,.08); padding: 32px 0; text-align: center; }
+    footer p { font-size: .85rem; color: #64748b; }
+    footer .social { display: flex; justify-content: center; gap: 18px; margin-bottom: 12px; }
+    footer .social a { font-size: 1.2rem; }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 1.8rem; }
+      .page-header .container { flex-direction: column; text-align: center; }
+      .feature-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="container">
+      <div class="logo"><span>⚡</span> shubham</div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#projects">Projects</a></li>
+        <li><a href="index.html#about">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ═══ Header ═══ -->
+  <div class="page-header">
+    <div class="container">
+      <div class="page-header-icon">⚡</div>
+      <div>
+        <h1 class="gradient-text">OptiSQL Tuner</h1>
+        <p class="subtitle">An AI agent that finds slow SQL queries, fixes them, and proves the speed-up — all inside VS Code. Available on the VS Code &amp; Open VSX marketplaces.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- ═══ Meta ═══ -->
+    <div class="meta-grid">
+      <div class="meta-item"><div class="label">Type</div><div class="value">VS Code Extension</div></div>
+      <div class="meta-item"><div class="label">Marketplaces</div><div class="value">2</div></div>
+      <div class="meta-item"><div class="label">Language</div><div class="value">TS + Python</div></div>
+      <div class="meta-item"><div class="label">License</div><div class="value">MIT</div></div>
+    </div>
+
+    <div class="btn-group">
+      <a class="btn btn-primary" href="https://marketplace.visualstudio.com/items?itemName=shubh835780.optisql-tuner" target="_blank">⚡ Install from Marketplace</a>
+      <a class="btn btn-outline" href="https://open-vsx.org/extension/shubh835780/optisql-tuner" target="_blank">Open VSX</a>
+      <a class="btn btn-outline" href="https://github.com/shubh835780/OptiSQL" target="_blank">Source →</a>
+    </div>
+
+    <!-- ═══ Hero image ═══ -->
+    <div class="img-full">
+      <img src="assets/hero.png" alt="OptiSQL hero banner" />
+    </div>
+
+    <!-- ═══ What it does ═══ -->
+    <h2>What it does</h2>
+    <p>OptiSQL is an AI agent that analyzes slow SQL queries against a realistic e-commerce database, diagnoses the bottleneck in plain English, recommends indexes or query rewrites, and proves the speed-up with before/after benchmarks — all on a 1-million-row database.</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>🔍 Diagnoses</h3>
+        <p>Runs <code>EXPLAIN</code> to find full table scans, missing indexes, and other performance bottlenecks.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🛠️ Fixes</h3>
+        <p>Adds the index or rewrites the query — safely on a <strong>copy</strong> of the database. Never touches your real data.</p>
+      </div>
+      <div class="feature-card">
+        <h3>📊 Proves</h3>
+        <p>Real before/after median timings. Shows exactly how much faster your query became.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🗣️ Explains</h3>
+        <p>Every fix ends with a plain-English walkthrough — like a senior engineer showing their work to a junior.</p>
+      </div>
+    </div>
+
+    <!-- ═══ Benchmark ═══ -->
+    <h2>Performance</h2>
+    <div class="img-full">
+      <img src="assets/benchmark.png" alt="Before/after benchmark chart" />
+    </div>
+    <table class="bench-table">
+      <thead>
+        <tr>
+          <th>Query</th>
+          <th>Before</th>
+          <th>After</th>
+          <th>Speed-up</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>SELECT * FROM orders WHERE customer_id = 12345</code></td>
+          <td>~1,200 ms</td>
+          <td>~8 ms</td>
+          <td class="speedup">~99%</td>
+        </tr>
+        <tr>
+          <td><code>SELECT COUNT(*) FROM orders WHERE status = 'pending'</code></td>
+          <td>~950 ms</td>
+          <td>~15 ms</td>
+          <td class="speedup">~98%</td>
+        </tr>
+        <tr>
+          <td><code>SELECT ... FROM orders WHERE order_date >= '2024-01-01'</code></td>
+          <td>~1,100 ms</td>
+          <td>~12 ms</td>
+          <td class="speedup">~99%</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ═══ Architecture ═══ -->
+    <h2>How it works</h2>
+    <div class="img-full">
+      <img src="assets/architecture.png" alt="OptiSQL architecture diagram" />
+    </div>
+    <p>The LLM can't touch the database directly. Instead it's given a small set of safe Python functions ("tools") it can call. It decides <em>which</em> tool to call and <em>when</em>; the Python code actually runs it and hands back the result. This tool-calling loop is the heart of every AI agent.</p>
+
+    <div class="code-block">
+      <span class="comment"># The agent's tool kit — each one is a safe, bounded operation</span><br />
+      <span class="keyword">def</span> <span class="func">get_schema</span>(): <span class="comment"># lists all tables + columns</span><br />
+      <span class="keyword">def</span> <span class="func">run_explain</span>(sql): <span class="comment"># returns the query plan</span><br />
+      <span class="keyword">def</span> <span class="func">benchmark_query</span>(sql): <span class="comment"># median of 5 runs</span><br />
+      <span class="keyword">def</span> <span class="func">create_index_on_copy</span>(table, column): <span class="comment"># only on shop_copy.db</span>
+    </div>
+
+    <!-- ═══ Safety ═══ -->
+    <h2>Safety by design</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>🛡️ Read-only by default</h3>
+        <p>No DROP, DELETE, UPDATE, or INSERT in the analysis path. The agent can only read data.</p>
+      </div>
+      <div class="feature-card">
+        <h3>📋 Copy-only writes</h3>
+        <p><code>create_index</code> only ever modifies a copy (<code>shop_copy.db</code>). The original is untouched.</p>
+      </div>
+      <div class="feature-card">
+        <h3>⏱️ Bounded loops</h3>
+        <p>A max-iterations cap stops the agent loop from running forever. No runaway costs.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🔐 Signed builds</h3>
+        <p>Every extension release is Ed25519-signed. The extension detects tampering before loading.</p>
+      </div>
+    </div>
+
+    <!-- ═══ VS Code mockup ═══ -->
+    <h2>In the marketplace</h2>
+    <div class="img-full">
+      <img src="assets/vscode-marketplace.png" alt="OptiSQL Tuner in VS Code Extensions view" />
+    </div>
+    <p>Search for "optisql-tuner" in the VS Code Extensions view, or install directly from the <a href="https://marketplace.visualstudio.com/items?itemName=shubh835780.optisql-tuner">Marketplace</a>.</p>
+
+    <!-- ═══ Explained ═══ -->
+    <h2>Explained simply</h2>
+    <div class="img-full">
+      <img src="assets/explain.png" alt="Example: explained simply" />
+    </div>
+    <p>Every report ends with a "What I changed, explained simply" section — a friendly, jargon-free walkthrough written for a complete beginner. No database knowledge needed to understand what the agent did and why it's faster.</p>
+
+    <hr />
+
+    <h2>Tech stack</h2>
+    <div class="tech-list">
+      <span class="tech-tag green">Python 3.11+</span>
+      <span class="tech-tag">TypeScript</span>
+      <span class="tech-tag green">SQLite</span>
+      <span class="tech-tag">Anthropic Claude</span>
+      <span class="tech-tag">LangChain</span>
+      <span class="tech-tag">Faker</span>
+      <span class="tech-tag green">VS Code API</span>
+      <span class="tech-tag">Ed25519</span>
+      <span class="tech-tag">GitHub Copilot</span>
+    </div>
+
+    <div class="btn-group">
+      <a class="btn btn-primary" href="https://marketplace.visualstudio.com/items?itemName=shubh835780.optisql-tuner" target="_blank">⚡ Install OptiSQL Tuner</a>
+      <a class="btn btn-outline" href="https://github.com/shubh835780/OptiSQL" target="_blank">View Source →</a>
+      <a class="btn btn-outline" href="index.html">← Back to Home</a>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="social">
+        <a href="https://github.com/shubh835780" target="_blank" title="GitHub">🐙</a>
+        <a href="https://www.linkedin.com/in/shubham-singh-246a97257/" target="_blank" title="LinkedIn">🔗</a>
+        <a href="https://marketplace.visualstudio.com/items?itemName=shubh835780.optisql-tuner" target="_blank" title="VS Code Marketplace">🧩</a>
+      </div>
+      <p>© 2026 Shubham Singh. Built from scratch. Hosted on GitHub Pages.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
