@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shubham Singh — Data & AI Engineer</title>
+  <meta name="description" content="Portfolio of Shubham Singh — building AI agents, ETL frameworks, and developer tools." />
+  <link rel="icon" type="image/png" href="assets/icon.png" />
+  <style>
+    /* ── Reset & base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+      background: #0e101a; color: #e5e7eb; line-height: 1.7; min-height: 100vh;
+    }
+    a { color: #22d3ee; text-decoration: none; transition: color .2s; }
+    a:hover { color: #7c5cff; }
+    img { max-width: 100%; height: auto; display: block; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+    /* ── Typography ── */
+    h1 { font-size: 2.8rem; font-weight: 800; line-height: 1.2; }
+    h2 { font-size: 2rem; font-weight: 700; margin-bottom: 1rem; }
+    h3 { font-size: 1.3rem; font-weight: 600; margin-bottom: .5rem; }
+    .gradient-text {
+      background: linear-gradient(135deg, #22d3ee 0%, #7c5cff 60%, #a855f7 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .subtitle { font-size: 1.15rem; color: #94a3b8; max-width: 640px; }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(14,16,26,.85); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(34,211,238,.12);
+    }
+    nav .container { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    nav .logo { font-weight: 700; font-size: 1.15rem; }
+    nav .logo span { color: #22d3ee; }
+    nav ul { display: flex; gap: 28px; list-style: none; }
+    nav a { color: #94a3b8; font-size: .9rem; font-weight: 500; }
+    nav a:hover { color: #22d3ee; }
+
+    /* ── Hero ── */
+    .hero { padding: 140px 0 80px; position: relative; overflow: hidden; }
+    .hero::before {
+      content: ''; position: absolute; width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(124,92,255,.15), transparent 70%);
+      top: -100px; right: -100px; pointer-events: none;
+    }
+    .hero .container { display: flex; align-items: center; gap: 60px; }
+    .hero-avatar {
+      width: 180px; height: 180px; border-radius: 50%;
+      border: 3px solid rgba(34,211,238,.3); flex-shrink: 0;
+      object-fit: cover;
+    }
+    .hero-text { flex: 1; }
+    .hero-text p { margin: 1rem 0 1.5rem; }
+    .hero-links { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 22px; border-radius: 8px; font-weight: 600; font-size: .9rem;
+      border: none; cursor: pointer; transition: all .2s;
+    }
+    .btn-primary { background: #22d3ee; color: #0e101a; }
+    .btn-primary:hover { background: #7c5cff; color: #fff; transform: translateY(-2px); }
+    .btn-outline { background: transparent; border: 1.5px solid #22d3ee; color: #22d3ee; }
+    .btn-outline:hover { background: rgba(34,211,238,.1); transform: translateY(-2px); }
+
+    /* ── Sections ── */
+    section { padding: 80px 0; }
+    section:nth-child(even) { background: rgba(20,18,38,.5); }
+    .section-label {
+      display: inline-block; font-size: .75rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: #7c5cff; margin-bottom: .5rem;
+    }
+
+    /* ── Project cards ── */
+    .project-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 2rem; }
+    @media (max-width: 768px) { .project-grid { grid-template-columns: 1fr; } }
+    .card {
+      background: rgba(255,255,255,.03); border: 1px solid rgba(34,211,238,.08);
+      border-radius: 14px; padding: 28px; transition: all .3s;
+    }
+    .card:hover { border-color: rgba(34,211,238,.25); transform: translateY(-4px); }
+    .card-icon { font-size: 2rem; margin-bottom: .75rem; }
+    .card p { color: #94a3b8; font-size: .95rem; margin-bottom: 1rem; }
+    .card-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1rem; }
+    .tag {
+      font-size: .75rem; padding: 3px 10px; border-radius: 20px;
+      background: rgba(124,92,255,.15); color: #a78bfa;
+    }
+    .tag.green { background: rgba(34,211,238,.12); color: #22d3ee; }
+    .card-links { display: flex; gap: 14px; }
+    .card-links a { font-size: .85rem; font-weight: 600; }
+    .card-img {
+      border-radius: 10px; overflow: hidden; margin: 0 0 1.25rem;
+      border: 1px solid rgba(34,211,238,.12);
+    }
+    .card-img img { width: 100%; display: block; transition: transform .3s; }
+    .card:hover .card-img img { transform: scale(1.02); }
+
+    /* ── About ── */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-top: 2rem; }
+    @media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; } }
+    .stat { text-align: center; padding: 24px; border-radius: 12px; background: rgba(255,255,255,.02); border: 1px solid rgba(34,211,238,.06); }
+    .stat-num { font-size: 2.2rem; font-weight: 800; }
+    .stat-label { font-size: .85rem; color: #94a3b8; margin-top: 4px; }
+
+    /* ── CTA ── */
+    .cta { text-align: center; padding: 80px 0; }
+    .cta h2 { margin-bottom: 1rem; }
+    .cta p { color: #94a3b8; max-width: 520px; margin: 0 auto 2rem; }
+
+    /* ── Footer ── */
+    footer { border-top: 1px solid rgba(34,211,238,.08); padding: 32px 0; text-align: center; }
+    footer p { font-size: .85rem; color: #64748b; }
+    footer .social { display: flex; justify-content: center; gap: 18px; margin-bottom: 12px; }
+    footer .social a { font-size: 1.2rem; }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      h1 { font-size: 2rem; }
+      .hero .container { flex-direction: column; text-align: center; }
+      .hero-text p { margin-left: auto; margin-right: auto; }
+      .hero-links { justify-content: center; }
+      nav ul { gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ Nav ═══ -->
+  <nav>
+    <div class="container">
+      <div class="logo"><span>⚡</span> shubham</div>
+      <ul>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="https://github.com/shubh835780" target="_blank">GitHub</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ═══ Hero ═══ -->
+  <section class="hero">
+    <div class="container">
+      <img class="hero-avatar" src="assets/avatar.png" alt="Shubham Singh avatar" />
+      <div class="hero-text">
+        <h1 class="gradient-text">Shubham Singh</h1>
+        <p class="subtitle">Building AI agents that tune SQL, ETL pipelines that validate themselves, and developer tools shipped to the VS Code Marketplace.</p>
+        <div class="hero-links">
+          <a class="btn btn-primary" href="https://marketplace.visualstudio.com/items?itemName=shubh835780.optisql-tuner" target="_blank">⚡ Try OptiSQL</a>
+          <a class="btn btn-outline" href="https://github.com/shubh835780" target="_blank">GitHub →</a>
+          <a class="btn btn-outline" href="https://www.linkedin.com/in/shubham-singh-246a97257/" target="_blank">LinkedIn →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Projects ═══ -->
+  <section id="projects">
+    <div class="container">
+      <span class="section-label">Projects</span>
+      <h2>What I've built</h2>
+      <div class="project-grid">
+
+        <!-- OptiSQL Tuner -->
+        <div class="card">
+          <div class="card-icon">⚡</div>
+          <h3>OptiSQL Tuner</h3>
+          <div class="card-img">
+            <img src="assets/vscode-marketplace.png" alt="OptiSQL in VS Code marketplace" />
+          </div>
+          <p>An AI agent that finds slow SQL queries, fixes them, and proves the speed-up — all inside VS Code. Available on the VS Code &amp; Open VSX marketplaces.</p>
+          <div class="card-tags">
+            <span class="tag">Python</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag green">VS Code</span>
+            <span class="tag">LLM</span>
+            <span class="tag">Ed25519</span>
+          </div>
+          <div class="card-links">
+            <a href="https://github.com/shubh835780/OptiSQL" target="_blank">Source →</a>
+            <a href="https://marketplace.visualstudio.com/items?itemName=shubh835780.optisql-tuner" target="_blank">Marketplace →</a>
+          </div>
+        </div>
+
+        <!-- ETL Validation Framework -->
+        <div class="card">
+          <div class="card-icon">🏪</div>
+          <h3>ETL Validation Framework</h3>
+          <p>End-to-end ETL validation framework with SCD Type 1/2/3, incremental fact loads, 7 check types, and HTML reports. Comes with a RetailMart case study and 14 practice tasks.</p>
+          <div class="card-tags">
+            <span class="tag">Python</span>
+            <span class="tag">SQLite</span>
+            <span class="tag green">pytest</span>
+            <span class="tag">CI/CD</span>
+            <span class="tag">HTML Reports</span>
+          </div>
+          <div class="card-links">
+            <a href="https://github.com/shubh835780/etl-validation-framework" target="_blank">Source →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ About ═══ -->
+  <section id="about">
+    <div class="container">
+      <span class="section-label">About</span>
+      <h2>Data engineer, AI tinkerer, marketplace publisher</h2>
+      <p class="subtitle" style="margin-bottom:2rem;">
+        I build tools that make data engineers and developers faster. From validating ETL pipelines to tuning SQL queries with AI, every project ships — tests, docs, CI, and all.
+      </p>
+      <div class="about-grid">
+        <div class="stat">
+          <div class="stat-num gradient-text">2</div>
+          <div class="stat-label">Marketplace listings</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num gradient-text">2</div>
+          <div class="stat-label">Open-source projects</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num gradient-text">⚡</div>
+          <div class="stat-label">Signed builds</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CTA ═══ -->
+  <section class="cta">
+    <div class="container">
+      <h2 class="gradient-text">Want to try OptiSQL?</h2>
+      <p>Install it in one click from the VS Code Marketplace. No terminal, no pip, no setup.</p>
+      <a class="btn btn-primary" href="https://marketplace.visualstudio.com/items?itemName=shubh835780.optisql-tuner" target="_blank">⚡ Install OptiSQL Tuner</a>
+    </div>
+  </section>
+
+  <!-- ═══ Footer ═══ -->
+  <footer>
+    <div class="container">
+      <div class="social">
+        <a href="https://github.com/shubh835780" target="_blank" title="GitHub">🐙</a>
+        <a href="https://www.linkedin.com/in/shubham-singh-246a97257/" target="_blank" title="LinkedIn">🔗</a>
+        <a href="https://marketplace.visualstudio.com/items?itemName=shubh835780.optisql-tuner" target="_blank" title="VS Code Marketplace">🧩</a>
+      </div>
+      <p>© 2026 Shubham Singh. Built from scratch. Hosted on GitHub Pages.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
