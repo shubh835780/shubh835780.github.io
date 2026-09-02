@@ -148,15 +148,15 @@
 
     /* ── Blob cursor ── */
     .blob-cursor {
-      position: fixed; top: 0; left: 0; width: 25px; height: 25px;
+      position: fixed; top: 0; left: 0; width: 30px; height: 30px;
       border-radius: 50%;
       background: radial-gradient(circle, #00aaff 20%, #33ccff 100%);
       mix-blend-mode: screen; pointer-events: none; z-index: 99999;
       transition: transform 0.2s ease-out, width 0.3s ease, height 0.3s ease;
       animation: morph 6s infinite ease-in-out;
-      opacity: 0.8; filter: blur(10px);
+      opacity: 0.85; filter: blur(11px);
     }
-    .hover-effect { width: 60px !important; height: 60px !important; transform: scale(1.2) !important; background: radial-gradient(circle, #33ccff 20%, #00aaff 100%) !important; }
+    .hover-effect { width: 68px !important; height: 68px !important; transform: scale(1.2) !important; background: radial-gradient(circle, #33ccff 20%, #00aaff 100%) !important; }
     @keyframes morph {
       0% { border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%; }
       33% { border-radius: 60% 40% 50% 70% / 60% 30% 70% 40%; }
@@ -241,6 +241,9 @@
         <div class="card">
           <div class="card-icon">🏪</div>
           <h3>ETL Validation Framework</h3>
+          <div class="card-img">
+            <img src="assets/pipeline.png" alt="ETL validation framework pipeline diagram" />
+          </div>
           <p>End-to-end ETL validation framework with SCD Type 1/2/3, incremental fact loads, 7 check types, and HTML reports. Comes with a RetailMart case study and 14 practice tasks.</p>
           <div class="card-tags">
             <span class="tag">Python</span>
@@ -325,7 +328,7 @@
         mouseY = e.clientY;
       });
 
-      document.querySelectorAll('a, .btn, .card, .hero-avatar, .stat').forEach(el => {
+      document.querySelectorAll('a, .btn, .card, .hero-avatar, .stat, .meta-item').forEach(el => {
         el.addEventListener('mouseenter', () => blob.classList.add('hover-effect'));
         el.addEventListener('mouseleave', () => blob.classList.remove('hover-effect'));
       });
